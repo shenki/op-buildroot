@@ -1,0 +1,42 @@
+From 7f6b017b8dc3b5f276b30353e0a7186e4e433e7a Mon Sep 17 00:00:00 2001
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 25 Jul 2016 13:24:37 +0930
+Subject: [PATCH] pflash: use atexit for musl compatibility
+To: skiboot@lists.ozlabs.org
+
+I accidentally built myself a cross-toolchain with the musl libc. It does
+not support on_exit which we use to clean up in pflash.
+
+Instead use atexit with is supported by both uclibc, musl and glibc.
+
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ external/pflash/pflash.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/external/pflash/pflash.c b/external/pflash/pflash.c
+index c124356fd3d9..27000469052e 100644
+--- a/external/pflash/pflash.c
++++ b/external/pflash/pflash.c
+@@ -509,7 +509,7 @@ static void print_help(const char *pname)
+ 	printf("\t\tThis message.\n\n");
+ }
+ 
+-void exiting(int d, void *p)
++void exiting(void)
+ {
+ 	if (need_relock)
+ 		arch_flash_set_wrprotect(bl, 1);
+@@ -775,8 +775,7 @@ int main(int argc, char *argv[])
+ 		exit(1);
+ 	}
+ 
+-	on_exit(exiting, NULL);
+-
++	atexit(exiting);
+ 
+ 	rc = blocklevel_get_info(bl, &fl_name,
+ 			    &fl_total_size, &fl_erase_granule);
+-- 
+2.8.1
+
