@@ -1,0 +1,11 @@
+--- eudev-3.0-orig/src/mtd_probe/mtd_probe.h		 2015-03-02 05:43:38.000000000 +1100
++++ eudev-3.0/src/mtd_probe/mtd_probe.h		 2016-02-17 09:26:27.570000954 +1100
+@@ -19,6 +19,8 @@
+ 
+ #include <mtd/mtd-user.h>
+ 
++#include <inttypes.h>
++
+ /* Full oob structure as written on the flash */
+ struct sm_oob {
+         uint32_t reserved;
