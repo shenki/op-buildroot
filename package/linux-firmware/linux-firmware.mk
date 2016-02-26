@@ -251,11 +251,20 @@ LINUX_FIRMWARE_FILES += iwlwifi-7265-$(BR2_PACKAGE_LINUX_FIRMWARE_IWLWIFI_REV).u
 LINUX_FIRMWARE_ALL_LICENSE_FILES += LICENCE.iwlwifi_firmware
 endif
 
-ifeq ($(BR2_PACKAGE_LINUX_FIRMWARE_BNX2X),y)
+ifeq ($(BR2_PACKAGE_LINUX_FIRMWARE_BNX2X_REV_7_10_51_0),y)
 LINUX_FIRMWARE_FILES += \
 	bnx2x/bnx2x-e1-7.10.51.0.fw \
 	bnx2x/bnx2x-e1h-7.10.51.0.fw \
 	bnx2x/bnx2x-e2-7.10.51.0.fw
+# No license file; the license is in the file WHENCE
+# which is installed unconditionally
+endif
+
+ifeq ($(BR2_PACKAGE_LINUX_FIRMWARE_BNX2X_REV_7_12_30_0),y)
+LINUX_FIRMWARE_FILES += \
+	bnx2x/bnx2x-e1-7.12.30.0.fw \
+	bnx2x/bnx2x-e1h-7.12.30.0.fw \
+	bnx2x/bnx2x-e2-7.12.30.0.fw
 # No license file; the license is in the file WHENCE
 # which is installed unconditionally
 endif
