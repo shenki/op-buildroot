@@ -373,7 +373,9 @@ config BR2_LINUX_KERNEL_INSTALL_TARGET
 source "linux/Config.ext.in"
 
 # Linux tools
-source "linux/Config.tools.in"
+### pje - commenting this out - came in under 1326e76. I doubt we
+###       need it  :}
+##########source "linux/Config.tools.in"
 
 endif # BR2_LINUX_KERNEL
 
