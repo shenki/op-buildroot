@@ -1,0 +1,6 @@
+config BR2_PACKAGE_PDBG
+	bool "pflash"
+	depends on BR2_arm || BR2_powerpc64 || BR2_powerpc64le || BR2_x86_64
+	help
+	  PowerPC FSI Debugger, for low level debugging of a PowerPC CPU
+	  over FSI
