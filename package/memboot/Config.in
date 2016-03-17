@@ -1,0 +1,5 @@
+config BR2_PACKAGE_MEMBOOT
+	bool "memboot"
+	depends on BR2_arm
+	help
+	  Boot your OpenPower PNOR firmware from memory
