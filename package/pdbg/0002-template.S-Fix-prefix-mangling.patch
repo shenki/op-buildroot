@@ -1,0 +1,48 @@
+From 24e8108cc2d0aa73ad19ee4a796ad5dfd57190cb Mon Sep 17 00:00:00 2001
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 8 Dec 2017 15:57:17 +1030
+Subject: [PATCH] template.S: Fix prefix mangling
+
+When I reworked Thomas' fix, I put the symbol prefix in the wrong spot.
+This resolves that bug and makes it clearer what is going on in the
+template.
+
+Fixes: 8275ca370476a3 (template.S: fix to build on architecture with non-empty __USER_LABEL_PREFIX__)
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ template.S | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/template.S b/template.S
+index 2b231f9de2e1..e56b7b4b0203 100644
+--- a/template.S
++++ b/template.S
+@@ -1,14 +1,16 @@
+-#ifdef __USER_LABEL_PREFIX__
+-#define CONCAT1(a, b) CONCAT2(a, b)
+-#define CONCAT2(a, b) a ## b
+-#define SYM(x) CONCAT1 (__USER_LABEL_PREFIX__, x)
+-#else
+-#define SYM(x) x
++// On platforms that define this macro, a symbol called "foo" in C must be
++// named "_foo" in assembler. GCC Should always define the macro, but
++// we add a fallback just in case
++#ifndef __USER_LABEL_PREFIX__
++#define __USER_LABEL_PREFIX__ ""
+ #endif
+ 
+-#define SYM_START(x)	CONCAT1(CONCAT1(_binary_, SYM(x)), _start)
+-#define SYM_END(x)	CONCAT1(CONCAT1(_binary_, SYM(x)), _end)
+-#define SYM_SIZE(x)	CONCAT1(CONCAT1(_binary_, SYM(x)), _size)
++#define CONCAT1(a, b, c, d) CONCAT2(a, b, c, d)
++#define CONCAT2(a, b, c, d) a ## b ## c ## d
++
++#define SYM_START(x)    CONCAT1(__USER_LABEL_PREFIX__, _binary_, x, _start)
++#define SYM_END(x)      CONCAT1(__USER_LABEL_PREFIX__, _binary_, x, _end)
++#define SYM_SIZE(x)     CONCAT1(__USER_LABEL_PREFIX__, _binary_, x, _size)
+ 
+ .section .data
+ SYM_START(SYMBOL_PREFIX):
+-- 
+2.14.1
+

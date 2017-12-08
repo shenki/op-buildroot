@@ -1,0 +1,35 @@
+From 23c0ed5fa890c38a0e00d2f222360a85892de3a2 Mon Sep 17 00:00:00 2001
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 8 Dec 2017 14:36:52 +1030
+Subject: [PATCH] Makefile: Fix dts dependencies
+
+When the dtb targets were split out into two separate rules, the
+dependencies should have been modified. Without this the creation of
+dtsi can race the dtc step and the build fails.
+
+Fixes: 81957b54c1b6 ("Makefile: seperate out dtb building steps")
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ Makefile.am | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 38a66c4deec6..3c266d222195 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -66,9 +66,9 @@ DTC_V_0	= @echo "  DTC     " $@;
+ %.dtsi: %.dtsi.m4
+ 	$(M4_V)m4 -I$(dir $<) $< > $@
+ 
+-p9w-fsi.dtb.o: p9w-fsi.dts p9-fsi.dtsi
+-p9r-fsi.dtb.o: p9r-fsi.dts p9-fsi.dtsi
+-p9z-fsi.dtb.o: p9z-fsi.dts p9-fsi.dtsi
++p9w-fsi.dtb: p9w-fsi.dts p9-fsi.dtsi
++p9r-fsi.dtb: p9r-fsi.dts p9-fsi.dtsi
++p9z-fsi.dtb: p9z-fsi.dts p9-fsi.dtsi
+ 
+ %.dtb: %.dts
+ 	$(DTC_V)dtc -q -i$(dir $@) -I dts $< -O dtb > $@
+-- 
+2.14.1
+
