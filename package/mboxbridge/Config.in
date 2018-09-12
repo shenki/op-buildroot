@@ -1,0 +1,7 @@
+config BR2_PACKAGE_MBOXBRIDGE
+	bool "mboxbridge"
+	help
+          This package is used by OpenPower Power9 BMC systems to expose boot
+	  firmware to the host CPU.
+
+	  https://github.com/openbmc/mboxbridge
