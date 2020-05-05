@@ -141,6 +141,8 @@ config BR2_powerpc_power8
 	bool "power8"
 	select BR2_POWERPC_CPU_HAS_ALTIVEC
 	select BR2_POWERPC_CPU_HAS_VSX
+config BR2_powerpc_microwatt
+	bool "microwatt"
 endchoice
 
 choice

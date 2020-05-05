@@ -89,6 +89,9 @@ ifeq ($(BR2_powerpc_e500mc),y)
 TARGET_ABI += -mabi=spe -mfloat-gprs=double -Wa,-me500mc
 endif
 endif
+ifeq ($(BR2_powerpc_microwatt),y)
+TARGET_ABI += -mno-vsx -mno-altivec
+endif
 
 # Use longcalls option for Xtensa globally.
 # The 'longcalls' option allows calls across a greater range of addresses,
