@@ -1,0 +1,90 @@
+From a2c072e80ef5d1678fbd0e441edf9223bda5f7a6 Mon Sep 17 00:00:00 2001
+From: Anton Blanchard <anton@ozlabs.org>
+Date: Tue, 6 Jul 2021 15:55:53 +1000
+Subject: [PATCH] Hack out float128 support
+
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ sysdeps/powerpc/powerpc64/le/Implies-before         |  4 ++--
+ sysdeps/powerpc/powerpc64/le/Makefile               |  2 ++
+ sysdeps/powerpc/powerpc64/le/configure              | 10 +++++-----
+ sysdeps/powerpc/powerpc64/le/fpu/multiarch/Makefile |  1 +
+ 4 files changed, 10 insertions(+), 7 deletions(-)
+
+diff --git a/sysdeps/powerpc/powerpc64/le/Implies-before b/sysdeps/powerpc/powerpc64/le/Implies-before
+index 2139f4dae88b..8fbed8b898d6 100644
+--- a/sysdeps/powerpc/powerpc64/le/Implies-before
++++ b/sysdeps/powerpc/powerpc64/le/Implies-before
+@@ -1,7 +1,7 @@
+ # On PowerPC we use the IBM extended long double format.
+-ieee754/ldbl-128ibm-compat
++#ieee754/ldbl-128ibm-compat
+ ieee754/ldbl-128ibm
+ ieee754/ldbl-opt
+ ieee754/dbl-64
+ ieee754/flt-32
+-ieee754/float128
++#ieee754/float128
+diff --git a/sysdeps/powerpc/powerpc64/le/Makefile b/sysdeps/powerpc/powerpc64/le/Makefile
+index 7c036b45fcc0..11f831838e61 100644
+--- a/sysdeps/powerpc/powerpc64/le/Makefile
++++ b/sysdeps/powerpc/powerpc64/le/Makefile
+@@ -55,6 +55,8 @@ endif # ifeq ($(ibm128-fcts),yes)
+ # GCC BZ 84914, and marked as will-not-fix.
+ type-float128-CFLAGS += $(type-ldouble-CFLAGS)
+ 
++type-float128-CFLAGS =
++
+ ifeq ($(subdir),math)
+ # sqrtf128 requires emulation before POWER9.
+ CPPFLAGS += -I../soft-fp
+diff --git a/sysdeps/powerpc/powerpc64/le/configure b/sysdeps/powerpc/powerpc64/le/configure
+index 35950a6ddd17..120ec9835463 100644
+--- a/sysdeps/powerpc/powerpc64/le/configure
++++ b/sysdeps/powerpc/powerpc64/le/configure
+@@ -27,9 +27,9 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+ fi
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_target_power8_ok" >&5
+ $as_echo "$libc_cv_target_power8_ok" >&6; }
+-if test "$libc_cv_target_power8_ok" != "yes"; then :
+-  critic_missing="$critic_missing POWER8 or newer is required on powerpc64le."
+-fi
++#if test "$libc_cv_target_power8_ok" != "yes"; then :
++  #critic_missing="$critic_missing POWER8 or newer is required on powerpc64le."
++#fi
+ CFLAGS="$OLD_CFLAGS"
+ 
+ OLD_CFLAGS="$CFLAGS"
+@@ -65,7 +65,7 @@ if ${libc_cv_compiler_powerpc64le_ice+:} false; then :
+   $as_echo_n "(cached) " >&6
+ else
+   save_CFLAGS="$CFLAGS"
+-CFLAGS="$CFLAGS -mabi=ieeelongdouble -Wno-psabi"
++#CFLAGS="$CFLAGS -mabi=ieeelongdouble -Wno-psabi"
+ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ 
+@@ -96,7 +96,7 @@ if ${libc_cv_compiler_powerpc64le_ldbl128_mabi+:} false; then :
+   $as_echo_n "(cached) " >&6
+ else
+   save_CFLAGS="$CFLAGS"
+-CFLAGS="$CFLAGS -mabi=ieeelongdouble -mlong-double-128"
++#CFLAGS="$CFLAGS -mabi=ieeelongdouble -mlong-double-128"
+ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ 
+diff --git a/sysdeps/powerpc/powerpc64/le/fpu/multiarch/Makefile b/sysdeps/powerpc/powerpc64/le/fpu/multiarch/Makefile
+index cc073b53d329..b99cd0c7da4f 100644
+--- a/sysdeps/powerpc/powerpc64/le/fpu/multiarch/Makefile
++++ b/sysdeps/powerpc/powerpc64/le/fpu/multiarch/Makefile
+@@ -6,6 +6,7 @@ ifeq ($(subdir),math)
+ ifneq (yes,$(libc-submachine-power9))
+ do_f128_multiarch = yes
+ endif
++do_f128_multiarch = no
+ 
+ #
+ # This is an ugly, but contained, mechanism to provide hardware optimized
+-- 
+2.35.1
+
