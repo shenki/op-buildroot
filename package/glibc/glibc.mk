@@ -49,6 +49,10 @@ else ifeq ($(BR2_MIPS_OABI32),y)
 GLIBC_EXTRA_CFLAGS += -mabi=32
 endif
 
+ifeq ($(BR2_powerpc_microwatt),y)
+GLIBC_EXTRA_CFLAGS += -mno-altivec -mno-vsx
+endif
+
 ifeq ($(BR2_ENABLE_DEBUG),y)
 GLIBC_EXTRA_CFLAGS += -g
 endif
