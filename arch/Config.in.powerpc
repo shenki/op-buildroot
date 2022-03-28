@@ -11,12 +11,6 @@ choice
 	  Specific CPU variant to use
 config BR2_generic_powerpc
 	bool "generic"
-config BR2_powerpc_401
-	bool "401"
-	depends on !BR2_ARCH_IS_64
-config BR2_powerpc_403
-	bool "403"
-	depends on !BR2_ARCH_IS_64
 config BR2_powerpc_405
 	bool "405"
 	depends on !BR2_ARCH_IS_64
@@ -163,8 +157,6 @@ config BR2_ENDIAN
 	default "LITTLE" if BR2_powerpc64le
 
 config BR2_GCC_TARGET_CPU
-	default "401"		if BR2_powerpc_401
-	default "403"		if BR2_powerpc_403
 	default "405"		if BR2_powerpc_405
 	default "405fp"		if BR2_powerpc_405fp
 	default "440"		if BR2_powerpc_440
