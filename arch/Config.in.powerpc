@@ -113,8 +113,6 @@ config BR2_powerpc_e6500
 	bool "e6500"
 	depends on !BR2_powerpc64le
 	select BR2_POWERPC_CPU_HAS_ALTIVEC
-config BR2_powerpc_power4
-	bool "power4"
 config BR2_powerpc_power5
 	bool "power5"
 config BR2_powerpc_power6
@@ -198,7 +196,6 @@ config BR2_GCC_TARGET_CPU
 	default "e500mc"	if BR2_powerpc_e500mc
 	default "e5500"		if BR2_powerpc_e5500
 	default "e6500"		if BR2_powerpc_e6500
-	default "power4"	if BR2_powerpc_power4
 	default "power5"	if BR2_powerpc_power5
 	default "power6"	if BR2_powerpc_power6
 	default "power7"	if BR2_powerpc_power7

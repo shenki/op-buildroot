@@ -17,7 +17,6 @@ config BR2_PACKAGE_OPENBLAS_DEFAULT_TARGET
 	default "BOBCAT"       if BR2_x86_jaguar
 	default "STEAMROLLER"  if BR2_x86_steamroller
 	default "VIAC3"        if BR2_x86_c3 || BR2_x86_c32
-	default "POWER4"       if BR2_powerpc_power4
 	default "POWER5"       if BR2_powerpc_power5
 	default "POWER6"       if BR2_powerpc_power6
 	default "POWER7"       if BR2_powerpc_power7
