@@ -118,6 +118,9 @@ config BR2_powerpc_power7
 config BR2_powerpc_power8
 	bool "power8"
 	select BR2_POWERPC_CPU_HAS_ALTIVEC
+config BR2_powerpc_power9
+	bool "power9"
+	select BR2_POWERPC_CPU_HAS_ALTIVEC
 endchoice
 
 choice
@@ -192,6 +195,7 @@ config BR2_GCC_TARGET_CPU
 	default "power6"	if BR2_powerpc_power6
 	default "power7"	if BR2_powerpc_power7
 	default "power8"	if BR2_powerpc_power8
+	default "power9"	if BR2_powerpc_power9
 
 config BR2_READELF_ARCH_NAME
 	default "PowerPC"	if BR2_powerpc
