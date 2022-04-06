@@ -19,9 +19,15 @@ FLAC_AUTORECONF = YES
 FLAC_CONF_OPTS = \
 	$(if $(BR2_INSTALL_LIBSTDCPP),--enable-cpplibs,--disable-cpplibs) \
 	--disable-xmms-plugin \
-	--disable-altivec \
-	--disable-stack-smash-protection \
-	--disable-vsx
+	--disable-stack-smash-protection
+
+ifeq ($(BR2_POWERPC_CPU_HAS_VSX),)
+FLAC_CONF_OPTS += --disable-vsx
+endif
+
+ifeq ($(BR2_POWERPC_CPU_HAS_ALTIVEC),)
+FLAC_CONF_OPTS += --disable-altivec
+endif
 
 ifeq ($(BR2_PACKAGE_LIBOGG),y)
 FLAC_CONF_OPTS += --with-ogg=$(STAGING_DIR)/usr
