@@ -1,0 +1,36 @@
+From 6269a17baa7de9c582c734bb85931a9ca5f13d71 Mon Sep 17 00:00:00 2001
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 19 May 2022 22:21:19 +0930
+Subject: [PATCH] powerpc/microwatt: Add mmu bits to device tree
+
+In commit 5402e239d09f ("powerpc/64s: Get LPID bit width from device
+tree") the kernel tried to determine the pid and lpid bits from the
+device tree. If they are not found, there is a fallback, but Microwatt
+wasn't covered as has the unusual configuration of being both !HV and bare
+metal.
+
+Set the values in the device tree to avoid having to add a special case.
+The lpid value is the only one required, but add both for completeness.
+
+Fixes: 5402e239d09f ("powerpc/64s: Get LPID bit width from device tree")
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ arch/powerpc/boot/dts/microwatt.dts | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/powerpc/boot/dts/microwatt.dts b/arch/powerpc/boot/dts/microwatt.dts
+index 65b270a90f94..b69db1d275cd 100644
+--- a/arch/powerpc/boot/dts/microwatt.dts
++++ b/arch/powerpc/boot/dts/microwatt.dts
+@@ -90,6 +90,8 @@ PowerPC,Microwatt@0 {
+ 			64-bit;
+ 			d-cache-size = <0x1000>;
+ 			ibm,chip-id = <0>;
++			ibm,mmu-lpid-bits = <12>;
++			ibm,mmu-pid-bits = <20>;
+ 		};
+ 	};
+ 
+-- 
+2.35.1
+
