@@ -149,6 +149,12 @@ config BR2_powerpc_power8
 	depends on BR2_ARCH_IS_64
 	select BR2_POWERPC_CPU_HAS_ALTIVEC
 	select BR2_POWERPC_CPU_HAS_VSX
+config BR2_powerpc_power9
+	bool "power9"
+	depends on BR2_ARCH_IS_64
+	select BR2_POWERPC_CPU_HAS_ALTIVEC
+	select BR2_POWERPC_CPU_HAS_VSX
+	select BR2_ARCH_NEEDS_GCC_AT_LEAST_6
 endchoice
 
 if BR2_POWERPC_CPU_HAS_SPE
@@ -228,6 +234,7 @@ config BR2_GCC_TARGET_CPU
 	default "power6"	if BR2_powerpc_power6
 	default "power7"	if BR2_powerpc_power7
 	default "power8"	if BR2_powerpc_power8
+	default "power9"	if BR2_powerpc_power9
 	default "powerpc64"	if BR2_generic_powerpc64
 	default "powerpc"	if BR2_generic_powerpc
 
