@@ -9,12 +9,17 @@ config BR2_POWERPC_CPU_HAS_SPE
 
 choice
 	prompt "Target Architecture Variant"
-	default BR2_generic_powerpc
+	default BR2_generic_powerpc if !BR2_ARCH_IS_64
+	default BR2_generic_powerpc64 if BR2_ARCH_IS_64
+	default BR2_powerpc_power8 if BR2_powerpc64le
 	help
 	  Specific CPU variant to use
 config BR2_generic_powerpc
-	bool "generic"
-	# No C library supports this variant on ppc64le
+	bool "generic (32 bit)"
+	depends on !BR2_ARCH_IS_64
+config BR2_generic_powerpc64
+	bool "generic (64 bit)"
+	depends on BR2_ARCH_IS_64
 	depends on !BR2_powerpc64le
 config BR2_powerpc_401
 	bool "401"
@@ -218,6 +223,8 @@ config BR2_GCC_TARGET_CPU
 	default "power6"	if BR2_powerpc_power6
 	default "power7"	if BR2_powerpc_power7
 	default "power8"	if BR2_powerpc_power8
+	default "powerpc64"	if BR2_generic_powerpc64
+	default "powerpc"	if BR2_generic_powerpc
 
 config BR2_READELF_ARCH_NAME
 	default "PowerPC"	if BR2_powerpc
