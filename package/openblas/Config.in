@@ -22,6 +22,8 @@ config BR2_PACKAGE_OPENBLAS_DEFAULT_TARGET
 	default "POWER6"       if BR2_powerpc_power6
 	default "POWER7"       if BR2_powerpc_power7
 	default "POWER8"       if BR2_powerpc_power8
+	default "POWER9"       if BR2_powerpc_power9
+	default "POWER10"      if BR2_powerpc_power10
 	default "PPCG4"        if BR2_powerpc_7400 || BR2_powerpc_7450
 	default "PPC970"       if BR2_powerpc_970
 	default "PPC440"       if BR2_powerpc_440
