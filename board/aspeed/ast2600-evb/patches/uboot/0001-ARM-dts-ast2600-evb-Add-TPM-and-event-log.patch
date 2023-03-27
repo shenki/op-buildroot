@@ -1,0 +1,52 @@
+From 8c1342db69d03e7661bc236a08ebd5287d73a682 Mon Sep 17 00:00:00 2001
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 27 Mar 2023 17:57:39 +1030
+Subject: [PATCH] ARM: dts: ast2600-evb: Add TPM and event log
+
+Add a TPM on I2C bus 12 at address 0x2e, with a reserved memory event
+log buffer in memory.
+
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ arch/arm/dts/ast2600-evb.dts | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/arch/arm/dts/ast2600-evb.dts b/arch/arm/dts/ast2600-evb.dts
+index 6db1efdda540..ab8f1df3627f 100644
+--- a/arch/arm/dts/ast2600-evb.dts
++++ b/arch/arm/dts/ast2600-evb.dts
+@@ -11,6 +11,17 @@
+ 		reg = <0x80000000 0x40000000>;
+ 	};
+ 
++	reserved-memory {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++
++		event_log: tcg_event_log@b3d00000 {
++			no-map;
++			reg = <0xb3d00000 0x100000>;
++		};
++	};
++
+ 	chosen {
+ 		stdout-path = &uart5;
+ 	};
+@@ -324,3 +335,13 @@
+ 	u-boot,dm-pre-reloc;
+ 	status = "okay";
+ };
++
++&i2c12 {
++	status = "okay";
++
++	tpm@2e {
++		compatible = "nuvoton,npct75x";
++		reg = <0x2e>;
++		memory-region = <&event_log>;
++	};
++};
+-- 
+2.39.2
+
